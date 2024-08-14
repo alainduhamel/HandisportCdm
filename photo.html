@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prendre une photo</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <img src="https://oranebrouillet.fr/wp-content/uploads/2020/10/FFH-1536x581.png" alt="Logo" class="logo">
+        <h2>Prendre une photo du monument</h2>
+        <video id="video" autoplay></video>
+        <button id="captureButton">Prendre la photo</button>
+        <canvas id="canvas" style="display:none;"></canvas>
+    </div>
+
+    <script>
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const captureButton = document.getElementById('captureButton');
+
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+                video.srcObject = stream;
+            })
+            .catch(error => {
+                alert("Erreur lors de l'accès à la caméra : " + error.message);
+            });
+
+        captureButton.addEventListener('click', () => {
+            const context = canvas.getContext('2d');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            // Convertir l'image en base64
+            const dataURL = canvas.toDataURL('image/png');
+            
+            // Envoyer la photo vers un serveur ou service de stockage ici
+            // Assurez-vous d'obtenir une URL accessible publiquement
+            const uploadPhotoUrl = 'URL_DE_VOTRE_SERVICE_DE_STOCKAGE'; // Remplacez par l'URL de votre service de stockage
+
+            // Simuler l'upload en localStorage pour l'exemple
+            localStorage.setItem('photo', dataURL);
+
+            // Redirection vers la page de la question
+            window.location.href = 'question.html';
+        });
+    </script>
+</body>
+</html>

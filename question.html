@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question sur le Monument</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <img src="https://oranebrouillet.fr/wp-content/uploads/2020/10/FFH-1536x581.png" alt="Logo" class="logo">
+        <h2>Question</h2>
+        <p>Quelle est l'année de construction de ce monument ?</p>
+        <textarea id="answer" placeholder="Votre réponse..."></textarea>
+        <button id="submitAnswer">Envoyer</button>
+    </div>
+
+    <script>
+        document.getElementById('submitAnswer').addEventListener('click', function() {
+            const userAnswer = document.getElementById('answer').value.trim();
+            const photoURL = localStorage.getItem('photo'); // URL de la photo en base64
+
+            if (userAnswer && photoURL) {
+                // Vous devez remplacer [URL_DE_VOTRE_PHOTO] par un lien accessible de la photo
+                const phoneNumber = '+33670904188'; // Remplacez par le numéro de téléphone
+                const message = encodeURIComponent(`Voici une photo du monument : [URL_DE_VOTRE_PHOTO]\nRéponse : ${userAnswer}`);
+                window.location.href = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${message}`;
+            } else {
+                alert("Veuillez entrer une réponse et prendre une photo avant de soumettre.");
+            }
+        });
+    </script>
+</body>
+</html>
